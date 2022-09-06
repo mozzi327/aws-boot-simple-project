@@ -1,19 +1,20 @@
-package com.mozzi.board.toyproj.web.post.domain.posts;
+package com.mozzi.board.toyproj.web.post.domain.post;
 
+import com.mozzi.board.toyproj.web.post.web.request.EditPost;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
 @NoArgsConstructor
 @Entity
-public class Posts {
+@Getter
+public class Posts extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long postId;
 
     @Column(length = 500, nullable = false)
     private String title;
@@ -28,5 +29,10 @@ public class Posts {
         this.title = title;
         this.content = content;
         this.author = author;
+    }
+
+    public void editPost(EditPost editPost) {
+        this.title = editPost.getTitle();
+        this.content = editPost.getContent();
     }
 }

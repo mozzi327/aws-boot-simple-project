@@ -1,6 +1,6 @@
 package com.mozzi.board.toyproj.web.post.dto;
 
-import com.mozzi.board.toyproj.web.post.domain.posts.Posts;
+import com.mozzi.board.toyproj.web.post.domain.post.Posts;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

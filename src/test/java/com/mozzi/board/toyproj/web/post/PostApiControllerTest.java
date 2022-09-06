@@ -1,65 +1,125 @@
 package com.mozzi.board.toyproj.web.post;
 
-import com.mozzi.board.toyproj.web.post.domain.PostsRepository;
-import com.mozzi.board.toyproj.web.post.domain.posts.Posts;
-import com.mozzi.board.toyproj.web.post.dto.PostsSaveRequestDto;
-import org.aspectj.lang.annotation.AfterReturning;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mozzi.board.toyproj.web.post.domain.post.Posts;
+import com.mozzi.board.toyproj.web.post.repository.PostsRepository;
+import com.mozzi.board.toyproj.web.post.service.PostsService;
+import com.mozzi.board.toyproj.web.post.web.request.AddPost;
+import com.mozzi.board.toyproj.web.post.web.request.EditPost;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import java.util.List;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import org.springframework.http.*;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
+
+
+@Transactional
+@AutoConfigureMockMvc
+@SpringBootTest
 class PostApiControllerTest {
 
-    @LocalServerPort
-    private int port;
-
     @Autowired
-    private TestRestTemplate restTemplate;
+    private MockMvc mockMvc;
+
+    private PostsService postsService;
 
     @Autowired
     private PostsRepository postsRepository;
 
-    @AfterReturning
-    public void teardown() throws Exception{
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    @BeforeEach
+    public void clean() throws Exception {
         postsRepository.deleteAll();
     }
 
+    @DisplayName("글이 저장된다.")
     @Test
-    public void Posts_등록된다() throws Exception {
+    public void addPost() throws Exception {
         // given
-        String title = "title";
-        String content = "content";
-
-        PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
-                .title(title)
-                .content(content)
-                .author("홍길동")
+        AddPost addPost = AddPost.builder()
+                .title("제목")
+                .content("내용")
+                .author("길동이")
                 .build();
 
-        String url = "http://localhost:" + port + "/api/v1/posts";
 
-        // when
-        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, requestDto, Long.class);
 
         // then
-        Assertions.assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
-        Assertions.assertNotEquals(responseEntity.getBody(), 0L);
-
-        List<Posts> all = postsRepository.findAll();
-        Assertions.assertEquals(all.get(0).getTitle(), title);
-        Assertions.assertEquals(all.get(0).getContent(), content);
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/post")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(addPost)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("제목"))
+                .andExpect(jsonPath("$.content").value("내용"))
+                .andExpect(jsonPath("$.author").value("길동이"))
+                .andDo(print());
     }
 
+    @Test
+    @DisplayName("글이 수정된다.")
+    public void editPost() throws Exception {
+        // given
+        Posts post = Posts.builder()
+                .title("제목")
+                .content("내용")
+                .author("작성자")
+                .build();
+
+        postsRepository.save(post);
+
+        EditPost editPost = EditPost.builder()
+                .title("title")
+                .content("content")
+                .build();
+
+        // when
+        mockMvc.perform(MockMvcRequestBuilders.patch("/api/v1/post/{post-id}", post.getPostId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(editPost)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(post.getPostId()))
+                .andExpect(jsonPath("$.title").value("title"))
+                .andExpect(jsonPath("$.content").value("content"))
+                .andExpect(jsonPath("$.author").value("작성자"))
+                .andDo(print());
+        // then
+    }
+
+    @Test
+    @DisplayName("BaseTimeEntity 등록")
+    public void EnableBaseTimeEntityTest() {
+        // given
+        LocalDateTime now = LocalDateTime.of(2022, 9, 7, 0, 11, 0);
+        postsRepository.save(Posts.builder()
+                        .title("title")
+                        .content("content")
+                        .author("author")
+                .build());
+
+        // when
+        List<Posts> postsList = postsRepository.findAll();
+
+        // then
+        Posts posts = postsList.get(0);
+
+        System.out.println(">>>>>>>>>> createdAt="+posts.getCreatedAt() +
+                ", modifiedAt="+posts.getModifiedAt());
+        Assertions.assertEquals(posts.getCreatedAt(), now);
+        Assertions.assertEquals(posts.getModifiedAt(), now);
+    }
 }
