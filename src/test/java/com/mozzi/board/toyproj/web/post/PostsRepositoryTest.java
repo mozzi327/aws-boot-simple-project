@@ -1,7 +1,7 @@
 package com.mozzi.board.toyproj.web.post;
 
-import com.mozzi.board.toyproj.web.post.domain.post.Posts;
-import com.mozzi.board.toyproj.web.post.repository.PostsRepository;
+import com.mozzi.board.toyproj.post.domain.post.Posts;
+import com.mozzi.board.toyproj.post.repository.PostsRepository;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

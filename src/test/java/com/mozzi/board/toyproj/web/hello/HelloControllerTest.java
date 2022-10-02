@@ -1,7 +1,7 @@
 package com.mozzi.board.toyproj.web.hello;
 
 
-import com.mozzi.board.toyproj.web.hello.HelloController;
+import com.mozzi.board.toyproj.hello.HelloController;
 import org.apache.catalina.security.SecurityConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

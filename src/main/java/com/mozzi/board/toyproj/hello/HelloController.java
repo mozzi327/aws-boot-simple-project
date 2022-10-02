@@ -1,6 +1,6 @@
-package com.mozzi.board.toyproj.web.hello;
+package com.mozzi.board.toyproj.hello;
 
-import com.mozzi.board.toyproj.web.hello.dto.HelloResponseDto;
+import com.mozzi.board.toyproj.hello.dto.HelloResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,4 +1,4 @@
-package com.mozzi.board.toyproj.web.hello.dto;
+package com.mozzi.board.toyproj.hello.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

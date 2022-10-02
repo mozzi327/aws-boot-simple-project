@@ -1,5 +1,6 @@
-package com.mozzi.board.toyproj.web.post.web.request;
+package com.mozzi.board.toyproj.web.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-package com.mozzi.board.toyproj.web.post.dto;
+package com.mozzi.board.toyproj.post.dto;
 
-import com.mozzi.board.toyproj.web.post.domain.post.Posts;
+import com.mozzi.board.toyproj.post.domain.post.Posts;
 import lombok.Getter;
 
 @Getter

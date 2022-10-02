@@ -1,11 +1,10 @@
 package com.mozzi.board.toyproj.web.post;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mozzi.board.toyproj.web.post.domain.post.Posts;
-import com.mozzi.board.toyproj.web.post.repository.PostsRepository;
-import com.mozzi.board.toyproj.web.post.service.PostsService;
-import com.mozzi.board.toyproj.web.post.web.request.AddPost;
-import com.mozzi.board.toyproj.web.post.web.request.EditPost;
+import com.mozzi.board.toyproj.post.domain.post.Posts;
+import com.mozzi.board.toyproj.post.repository.PostsRepository;
+import com.mozzi.board.toyproj.web.request.AddPost;
+import com.mozzi.board.toyproj.web.request.EditPost;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 
@@ -34,8 +32,6 @@ class PostApiControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    private PostsService postsService;
 
     @Autowired
     private PostsRepository postsRepository;
@@ -56,7 +52,6 @@ class PostApiControllerTest {
                 .content("내용")
                 .author("길동이")
                 .build();
-
 
 
         // then

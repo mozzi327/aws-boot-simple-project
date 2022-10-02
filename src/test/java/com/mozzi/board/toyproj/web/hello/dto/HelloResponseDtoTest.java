@@ -1,5 +1,5 @@
 package com.mozzi.board.toyproj.web.hello.dto;
-import com.mozzi.board.toyproj.web.hello.dto.HelloResponseDto;
+import com.mozzi.board.toyproj.hello.dto.HelloResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

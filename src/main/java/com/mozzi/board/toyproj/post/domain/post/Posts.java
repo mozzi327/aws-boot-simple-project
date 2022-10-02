@@ -1,6 +1,6 @@
-package com.mozzi.board.toyproj.web.post.domain.post;
+package com.mozzi.board.toyproj.post.domain.post;
 
-import com.mozzi.board.toyproj.web.post.web.request.EditPost;
+import com.mozzi.board.toyproj.web.request.EditPost;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

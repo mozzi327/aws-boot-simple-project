@@ -1,4 +1,4 @@
-package com.mozzi.board.toyproj.web.post.domain.post;
+package com.mozzi.board.toyproj.post.domain.post;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 public abstract class BaseTimeEntity {
 
     @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime createdDate;
 
     @LastModifiedDate
-    private LocalDateTime modifiedAt;
+    private LocalDateTime modifiedDate;
 }

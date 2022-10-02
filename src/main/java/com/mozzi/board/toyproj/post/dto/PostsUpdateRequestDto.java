@@ -1,4 +1,4 @@
-package com.mozzi.board.toyproj.web.post.dto;
+package com.mozzi.board.toyproj.post.dto;
 
 import lombok.Builder;
 import lombok.Getter;
